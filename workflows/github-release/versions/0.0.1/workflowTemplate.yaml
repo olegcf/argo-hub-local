@@ -48,7 +48,7 @@
            - name: RELEASE_TAG
            - name: RELEASE_DESCRIPTION
        container:
-         image: quay.io/codefreshplugins/argo-hub-workflows-github-release-versions-1.0.0-images:main
+         image: cfsupport/github-release:latest
          env:
            - name: GITHUB_TOKEN
              valueFrom:
