@@ -1,0 +1,16 @@
+FROM node:13.0-alpine
+
+ARG CF_CLI_VERSION=v0.35.0
+
+RUN apk add -U --no-cache openssl bash wget jq libgcc libstdc++
+
+WORKDIR /plugin
+
+COPY github-release-cli/package* ./
+RUN npm install
+
+COPY github-release-cli/ ./
+RUN npm run build && npm install -g
+
+ENTRYPOINT [ "github-release" ]
+CMD [ "upload" ]
