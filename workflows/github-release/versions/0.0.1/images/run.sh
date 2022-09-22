@@ -31,32 +31,13 @@ then
   FILES=$(echo "$FILES" | tr "," " ")
 fi
 
-if [ "$DRAFT" = "true" ]
-then
-      DRAFT="-d true";
-else 
-      DRAFT="";
-fi
-
-if [ -n "$BASE_URL" ]
-then
-      BASE_URL="--baseurl $BASE_URL";
-else 
-      BASE_URL=""
-fi
-if [ "$PRERELEASE" = "true" ]
-then
-    PRERELEASE="-p true";
-else 
-    PRERELEASE="";
-fi
 env
   
 set -x
 github-release upload \
-    $DRAFT \
-    $PRERELEASE \
-    $BASE_URL \
+    ${DRAFT:+-d true} \
+    ${PRERELEASE:+-p $PRERELEASE} \
+    ${$BASE_URL:+--baseurl $BASE_URL} \
     --token $GITHUB_TOKEN \
     --owner "$REPO_OWNER" \
     --repo  "$REPO_NAME" \
