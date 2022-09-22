@@ -10,11 +10,13 @@ Create github release. Workflow consists of two subsequent tasks, since github r
 * BASE_URL              API endpoint (default: "https://api.github.com") 
 * DRAFT                 `true` makes the release a draft, and `false` publish the release (default: "false")
 * PRERELEASE            if `true` create pre-release (default: "false")
+* REPO_URL              used by clone step (inside plugin)
 * REPO_OWNER            repository owner (Git username) (required)
 * REPO_NAME             repository name (required) 
 * RELEASE_NAME          release name (required)
 * RELEASE_TAG           release tag  (required)
 * RELEASE_DESCRIPTION   release message (required)
+* FILES                 list of files inside cloned directory to attach to the release
 * GIT_TOKEN_SECRET      Kubernetes secret name with git token (default: github-token)
 
 ### Outputs
