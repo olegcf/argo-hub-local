@@ -1,7 +1,7 @@
 # Upload
 
 ## Summary
-Create github release
+Create github release. Workflow consists of two subsequent tasks, since github release can be attached a files we firstly clone repository by using [clone](https://github.com/codefresh-io/argo-hub/blob/main/workflows/git/versions/0.0.3/docs/clone.md) template from the Markteplace that stores file in the "repo" artifact and then creating release in another step. That's why <u>S3 storage must be configured</u> is required prior you can use the template.
 
 ## Inputs/Outputs
 
@@ -25,15 +25,19 @@ Create github release
 ### task Example
 ```yaml
 apiVersion: argoproj.io/v1alpha1
-kind: WorkflowTemplate
+kind: Workflow
 metadata:
-  name: create-release-for-node
+  name: create-github-release
 spec:
-   entrypoint: git-release
+   entrypoint: main
    templates:
-     - name: git-release
+     - name: main
        inputs:
-         parameters:
+         parameters:                                
+          # Used by close step
+          - name: REPO_URL
+          - name: GIT_TOKEN_SECRET
+            value: 'github-token'                
           - name: BASE_URL
             default: 'https://api.github.com'
            # set to true to create draft
@@ -47,22 +51,21 @@ spec:
           - name: RELEASE_NAME
           - name: RELEASE_TAG
           - name: RELEASE_DESCRIPTION
-          - name: GIT_TOKEN_SECRET
-            default: github-token   # name of secret
+          - name: FILES
+            default: ''
        dag:
          tasks:
-           - name: upload-git-release
+           - name: create-github-release
              templateRef:
-               name: git-release.0.0.1
+               name: git-release.0.0.2
                template: upload
              arguments:
                parameters:
                # https://api.github.com
                - name: BASE_URL
-                 value: '{{ inputs.parameters.GIT_TOKEN_SECRET }}'
-                 # set to true to create draft
+               # set to true to create draft
                - name: DRAFT
-                 value: '{{ inputs.parameters. }}'
+                 value: '{{ inputs.parameters.DRAFT }}'
                # set to true to create pre-release
                - name: PRERELEASE
                  value: '{{ inputs.parameters.PRERELEASE }}'
@@ -81,4 +84,6 @@ spec:
                  value: '{{ inputs.parameters.RELEASE_TAG }}'
                - name: RELEASE_DESCRIPTION
                  value: '{{ inputs.parameters.RELEASE_DESCRIPTION }}'
+               - name: FILES
+                 value: '{{ inputs.parameters.FILES }}'
 ```
