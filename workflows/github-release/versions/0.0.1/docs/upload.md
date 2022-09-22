@@ -1,7 +1,7 @@
 # Upload
 
 ## Summary
-Create github release. Workflow consists of two subsequent tasks, since github release can be attached a files we firstly clone repository by using [clone](https://github.com/codefresh-io/argo-hub/blob/main/workflows/git/versions/0.0.3/docs/clone.md) template from the Markteplace that stores file in the "repo" artifact and then creating release in another step. That's why <u>S3 storage must be configured</u> is required prior you can use the template.
+Create github release. Workflow consists of two subsequent tasks, since github release can be attached a files we firstly clone repository by using [clone](https://github.com/codefresh-io/argo-hub/blob/main/workflows/git/versions/0.0.3/docs/clone.md) template from the Markteplace that stores file in the "repo" artifact and then creating release in another step. That's why __S3 storage must be configured prior__ you can use the template.
 
 ## Inputs/Outputs
 
